@@ -21,6 +21,7 @@ let gameStarted = false;
 //settings elements
 let settingDiv; //the div container thing
 let startButt; //starts the game
+let objButt;
 
 function preload(){
   playground = loadImage('https://cdn.glitch.com/c5b3d0c0-8769-4aad-895c-f5ee11dde9e9%2Fplayground.jpeg?1556921517107');
@@ -38,19 +39,27 @@ function setup() {
     .parent('settingsContainer')
     .id('settings');
   
+  //obective assignment button
+  objButt = createButton('SEND OBJECTIVES')
+    .parent('settings')
+    .mousePressed(function(){
+        genMap(); //sets initial map state
+        let game = {
+          map: map,
+          scoreboard: scoreboard
+        }
+        socket.emit('objectives', game);
+        // objective = true;
+        // settingDiv.hide(); //hides settings and brings canvas up
+      // }
+  });
+  
   //start button
   startButt = createButton('START GAME')
     .parent('settings')
     .mousePressed(function(){
-      // updateSettings();
-      // if(timeOn){timer = timerSlider.value();}'
-      // if (!ready){
-        genMap(); //sets initial map state
-        // ready = true;
-        console.log(map);
         let game = {
           map: map,
-          // settings: settings,
           scoreboard: scoreboard
         }
         socket.emit('start', game);

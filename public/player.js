@@ -1,4 +1,4 @@
-let coolDefault = 10;
+let coolDefault = 3;
 
 class Player {
   constructor(name, r, g, b) {

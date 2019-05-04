@@ -22,6 +22,9 @@ let bothTrust = false;
 let bothBetray = false;
 let youFooled = false;
 let theyFooled = false;
+let objective = false;
+let target, tR, tG, tB;
+let bff; //for color
 
 //player setup
 let ready = false;
@@ -35,6 +38,7 @@ var blueCol = 0;
 var joined = false; //if they've left character creation
 var gameSetup = false; //game setup after player creation UGH "setup"
 let cnv;
+let instructionP;
 
 function preload(){
   playground = loadImage('https://cdn.glitch.com/c5b3d0c0-8769-4aad-895c-f5ee11dde9e9%2Fplayground.jpeg?1556921517107');
@@ -65,7 +69,7 @@ function setup() {
 	greenSlide.position(width/3, 3 * height/7);
 	blueSlide = createSlider(0,255,188);
 	blueSlide.position(width/3, 3 * height/7 + height/20);
-	text('Enter Your Name', width/2, 8 * height/12);
+	text('Enter Your REAL Name, please!', width/2, 8 * height/12);
 	input = createInput('type name here');
 	input.parent('settings');
 	input.position(width/4, 5 * height / 7);
@@ -111,7 +115,23 @@ function setup() {
     }
   }
   
+  socket.on('objectives', function(obj){
+    objective = true;
+    for (let i = obj.length - 1; i >= 0; i--){
+      if (name == obj[i].name){ //b/c no id yet
+        let t = obj[i].target;
+        target = t.name;
+        bff = obj[i].bff;
+        tR = t.r;
+        tG = t.g;
+        tB = t.b;
+      }
+    }
+    console.log(obj);
+  });
+  
   socket.on('start', function(){
+    objective = false;
     gameStarted = true;
     coolTimer = millis();
   });
@@ -200,12 +220,17 @@ function draw(){
         blueSlide.hide();        
 				startButt = createButton('START');
 				startButt.parent('settings');
-				startButt.position(width/3, height/3);
+				startButt.position(width/2, 4 * height/6);
+        instructionP = createP('You are a middle schooler on the playground. Times are tough, it\'s your first day, so it\'s hunting season. You start with three cool points, and your goal is to never get down to zero, or else you\'ll be so embarassed you\'ll run home crying. To be cool, you have to go around and high five other kids. But, as is tradtion, after the first high five, you each get a chance to high five again (DOWN LOW) or fake them out (TOO SLOW). If you both high five, you both get cool points. If you both fake out, nothing happens. But! If you go for a high five and they fake you out, its SO EMBARASSING! You\'ll definitely lose cool points. You also will get either a BFF or a RIVAL, your goal is to keep them at school if they\'re your BFF, or make them go home if they\'re your RIVAL.')
+          .parent('settings')
+          .position(width/4, height/3)
+          .style('font-size', '20');
+              
 			} //only make start button once, def better way to do this
 			background(155);
 			fill(0);
 			textSize(24);
-			text('click START to join game', width/2, height/4);
+			text('INSTRUCTIONS', width/2, height/6);
 			startButt.mouseClicked(function(){
         if (!sent){
           let pInfo = {
@@ -236,11 +261,37 @@ function draw(){
 			fill(0, 0, blueSlide.value());
 			text('blue', width/4, 3 * height/7 + height/20);
 		} //end of avatar select
+  } else if (objective){
+    //after receive objective assignment
+    push();
+    background(255 - tR, 255 - tG, 255 - tB);
+    fill(255);
+    stroke(0);
+    textSize(40);
+    if (bff){
+      text("Your BFF is", width/2, height/5);
+      push();
+      fill(tR, tG, tB);
+      text(target, width/2, 2 * height/5);
+      pop();
+      text("Make sure they stay cool!", width/2, 3 * height/5);
+      text("You only win if you stay school and so do they!", width/2, 4* height/5);
+    } else {
+      text("Your RIVAL is", width/2, height/5);
+      push();
+      fill(tR, tG, tB);
+      text(target, width/2, 2 * height/5);
+      pop();
+      text("Embarass that loser!", width/2, 3 * height/5);
+      text("You only win if you stay school and they go home!", width/2, 4* height/5);
+      
+    }
+    pop();
   } else if (!gameStarted){
     background(120, 255, 0);
     fill(0);
     textSize(40);
-    text("waiting for other players", width/2, height/2)
+    text("waiting for other players", width/2, height/2);
   } else{ //game running
     background(200);
     noStroke();
@@ -275,8 +326,8 @@ function draw(){
             push();
             textAlign(CENTER);
             textSize((height/mapScale) * 2);
-            fill(0);
-            stroke(255);
+            fill(255);
+            stroke(0);
             strokeWeight(2);
             text(p.name, (x * mapScale) + (mapScale/2), (y * mapScale) + (mapScale/2));
             pop();
@@ -292,8 +343,22 @@ function draw(){
       stroke(0);
       //points
       fill("Cyan");
-      text("Cool Points: " + me.cool, width - (mapWidth*mapScale), height/5); 
+      text("Cool Points: " + me.cool, (mapWidth*mapScale) + 10, height/5); 
       //mouse over to show secret goal
+      if (mouseX <= width && mouseX >= (mapWidth*mapScale) &&
+          mouseY <= height && mouseY >= height/2){ //if want to show
+          if (bff){
+            fill("blue");
+            text(target, (mapWidth*mapScale), 3* height/5);
+        } else {
+          fill("red");
+          text(target, (mapWidth*mapScale), 3* height/5);
+        }
+      } else { //block view
+        fill(122);
+        rectMode(CORNER);
+        rect((mapWidth*mapScale), 3* height/5, (width - (mapWidth*mapScale)), height/4);
+      }
       pop();
       //- - - - - - -  cool Timer
       if (me.timerReset == true){
@@ -310,8 +375,8 @@ function draw(){
         rectMode(CENTER);
         fill(them.r, them.g, them.b, 150);
         rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-        fill(0);
-        stroke(255);
+        fill(255);
+        stroke(0);
         text("YOU HIGH-FIVED", (mapWidth*mapScale)/2, height/6);
         text(them.name, (mapWidth*mapScale)/2, 2 * height/6);
         text("now, will you...", (mapWidth*mapScale)/2, 3 * height/6);
@@ -326,8 +391,8 @@ function draw(){
           rectMode(CENTER);
           fill(0, 225, 50, 150); //green
           rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-          fill(0);
-          stroke(255);
+          fill(255);
+          stroke(0);
           text("YOU AND", (mapWidth*mapScale)/2, height/6);
           text(them.name, (mapWidth*mapScale)/2, 2 * height/6);
           text("HIGH FIVED!", (mapWidth*mapScale)/2, 3 * height/6);
@@ -340,8 +405,8 @@ function draw(){
           rectMode(CENTER);
           fill(50, 0, 190, 150); // blue
           rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-          fill(0);
-          stroke(255);
+          fill(255);
+          stroke(0);
           text("YOU AND", (mapWidth*mapScale)/2, height/6);
           text(them.name, (mapWidth*mapScale)/2, 2 * height/6);
           text("both faked it", (mapWidth*mapScale)/2, 3 * height/6);
@@ -354,8 +419,8 @@ function draw(){
           rectMode(CENTER);
           fill(255, 225, 0, 150); // yellow
           rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-          fill(0);
-          stroke(255);
+          fill(255);
+          stroke(0);
           text("YOU FOOLED", (mapWidth*mapScale)/2, height/6);
           text(them.name, (mapWidth*mapScale)/2, 2 * height/6);
           text("HAHA, THEY'RE A LOSER", (mapWidth*mapScale)/2, 3 * height/6);
@@ -367,8 +432,8 @@ function draw(){
           rectMode(CENTER);
           fill(200, 0, 0, 150); // red
           rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-          fill(0);
-          stroke(255);
+          fill(255);
+          stroke(0);
           text(them.name, (mapWidth*mapScale)/2, height/6);
           text("TRICKED YOU", (mapWidth*mapScale)/2, 2 * height/6);
           text("...hope no one saw that!", (mapWidth*mapScale)/2, 3 * height/6);
@@ -381,8 +446,8 @@ function draw(){
       rectMode(CENTER);
       fill(0, 150);
       rect((mapWidth*mapScale)/2, height/2, ((mapWidth*mapScale) - width/5), (height - height/5));
-      fill(0);
-      stroke(255);
+      fill(255);
+      stroke(0);
       text("Aw, you went home", (mapWidth*mapScale)/2, height/2);
       pop();
     }

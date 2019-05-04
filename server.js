@@ -20,8 +20,8 @@ let showdownPairs = [];
 //mega game state array 
 let map = []
 
-let mapWidth = 10;
-let mapHeight = 10;
+let mapWidth = 15;
+let mapHeight = 15;
 let mapMax = mapWidth * mapHeight;
 // let mapScale = 10;
 let mapScale;
@@ -134,7 +134,7 @@ setInterval(function(){
         //p1 fooled
         if (p1c == "betray" && p2c == "trust"){
           p1.cool += foolCool; //3
-          p2.cool -= bothTrust; // -2
+          p2.cool -= bothTrust * 2; // -4
           state = "p1fooled";
           
         } 
@@ -343,23 +343,53 @@ screen.on('connection',
   function (socket) {
     console.log("Screen has connected: " + socket.id);
 
+    //to send out assignments
+    socket.on('objectives', function(game){
+      map = game.map;
+      scoreboard = game.scoreboard;
+      // objective = true;
+      let objectives = []
+      
+      //need to assign another player to each player, and random bff or rival
+      for (let i = scoreboard.length - 1; i >= 0; i--){
+        let others = [];
+        for (let j = scoreboard.length - 1; j >= 0; j--){
+          if (scoreboard[i] != scoreboard[j]){
+            others.push(scoreboard[j]);
+          }
+        }
+        let randTarget = Math.floor(Math.random()*Math.floor(others.length));
+        let target = others[randTarget];
+        let randRelationship = Math.floor(Math.random() * Math.floor(2));
+        let rel;
+        if (randRelationship == 1){
+          rel = true;
+        } else {
+          rel = false;
+        }
+        let obj = {
+          name: scoreboard[i].name,
+          id: scoreboard[i].id,
+          target: target,
+          bff: rel
+        }
+        objectives.push(obj);
+      }
+      console.log(objectives);
+      players.emit('objectives', objectives);
+    });
+  
     //when the screen sets up the game and presses start
     socket.on('start', function(game) {
       //sets the variables according to the settings
       // startSettings = game.settings;
-      map = game.map;
-      scoreboard = game.scoreboard;
+      // map = game.map;
+      // scoreboard = game.scoreboard;
       // console.log(scoreboard);
       gameStarted = true;
       players.emit('start'); //just for gameStarted
     });
   
-    //updated scoreboard
-    // socket.on('scores', function(board){
-    //   // console.log('scoreboard');
-    //   // console.log(scoreboard);
-    //   scoreboard = board;
-    // });
 
     // Listen for the screen to disconnect
     socket.on('disconnect', function() {
@@ -380,7 +410,7 @@ screen.on('connection',
 //classes? idk if they need to be here or if we can point to a file
 
 
-let coolDefault = 10;
+let coolDefault = 3;
 
 class Player {
   constructor(name, r, g, b) {
@@ -396,5 +426,6 @@ class Player {
     this.home = false; //if they left school and went home
     this.moved = true;
     this.timerReset = false;
+    // this.target
   }
 }
