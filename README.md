@@ -2,36 +2,54 @@ Trust Royale
 =================
 ### work together to win alone
 
-a semi-cooperative free-for-all game in the browser for 2-20 players
+a semi-cooperative game of middle school embarassment in the browser for 2-20 players
 
 by Atharva Patil and August Luhrs  
 Collective Play Final Project  
 ITP Spring 2019 -- Mimi Yin  
 
+## Showdown Weights
+- Both Trust : +2/+2
+- Both Betray: +0/+0
+- Trust/Betray: -4/+3
 
 ## New TODO (5/3)
-- smaller map
-- less health (cool points)
-- timer for losing cool
+- ~~smaller map~~
+- ~~on death, leave school~~
+- ~~timer for losing cool~~
+  - ~~show on side screen, or maybe with stroke of avatar? or a timer on their avatar?~~
+  - ~~+ red~~
+  - ~~triggered cool and reset~~
 - new UI (stuff on the side)
-- no items
-- new theme (Middle School Hallway)
-- new high five screen
-  - transparent overlay
-  - name of person 
-  - high five or whiff
+  - ~~mouseOver to show secret goal~~
+- ~~make start button changes~~
+- ~~new movement (tap instead of hold)~~
+- ~~movement bug if too much at same time~~
+- ~~no items~~
+- ~~new theme (Middle School Playground)~~
+  - ~~could have image overlay of playground, grass transparent~~
+- ~~names on screens~~
+- ~~new high five screen~~
+  - ~~transparent overlay~~
+  - ~~name of person ~~
+  - ~~high five or whiff~~
     - emojis?
-  - Cool points
-- no leaderboard, just start screen
-- secret goals (best friend, rival)
-  - new ready screen 
-    - shows who your best friend/rival is
-    - reminder text (you only win if you survive and X) 
+  - ~~send event~~
+  - ~~results screen~~
+    - ~~go away on move~~
+- ~~no leaderboard, just start screen~~
+- ~~secret goals (best friend, rival)~~
+  - ~~new ready screen ~~
+    - ~~shows who your best friend/rival is~~
+    - ~~reminder text (you only win if you survive and X) ~~
     - press start when ready
-- first ready screen (rules recap)
+- ~~ first ready screen (rules recap)~~
+  - paragraph better
 - end game screen
   - final points + if win
   - secret objectives revealed
+- ~~New instructions~~
+  - ~~first name required~~
 
 
 
