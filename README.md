@@ -1,19 +1,49 @@
-Trust Royale
+Playground Royale
 =================
-### work together to win alone
+### Stay Cool! Or Else...
 
-a semi-cooperative game of middle school embarassment in the browser for 2-20 players
+a semi-cooperative game of middle school embarassment in the browser for 3-20 players
 
 by Atharva Patil and August Luhrs  
 Collective Play Final Project  
 ITP Spring 2019 -- Mimi Yin  
+
+playground photo thanks to:  
+[pond5](https://www.pond5.com/stock-footage/88389881/birds-eye-view-school-playground.html)
 
 ## Showdown Weights
 - Both Trust : +2/+2
 - Both Betray: +0/+0
 - Trust/Betray: -4/+3
 
+
+## Premise
+
+In Playground Royale, You are a middle schooler on the playground. 
+Times are tough, it\'s your first day, so it\'s hunting season. 
+You start with three cool points, and your goal is to never get down to zero, 
+or else you\'ll be so embarassed you\'ll run home crying. 
+To be cool, you have to go around and high five other kids. 
+But, as is tradtion, after the first high five, 
+you each get a chance to high five again (DOWN LOW) or fake them out (TOO SLOW). 
+If you both high five, you both get cool points. 
+If you both fake out, nothing happens. 
+But! If you go for a high five and they fake you out, its SO EMBARASSING! 
+You\'ll definitely lose cool points. 
+You also will get either a BFF or a RIVAL, 
+your goal is to keep them at school if they\'re your BFF, 
+or make them go home if they\'re your RIVAL.
+
+## Set Up
+
+- Players can go to playground-royale.glitch.me and choose their color and input their REAL name. Upon pressing the submit button, they will see a grey instruction screen. Press start on that screen to be entered into the queue.
+- Open playground-royale.glitch.me/screen for the shared screen which will display the score leaderboard and the whole map AND the start options. When all players have joined, press the "objective assignments" button to assign everyone an objective.
+- Then when all players understand their objective, press "Start Game" on the shared screen.
+- ~~When every player is ready and displaying on the leaderboard, the VIP player (indicated on the player screen and leaderboard) can press the "START" button to begin the game. (Should the VIP also be the one who has the settings page? or is that on the shared screen? or...)~~
+
+
 ## New TODO (5/3)
+- update How to Play
 - ~~smaller map~~
 - ~~on death, leave school~~
 - ~~timer for losing cool~~
@@ -43,7 +73,7 @@ ITP Spring 2019 -- Mimi Yin
     - ~~shows who your best friend/rival is~~
     - ~~reminder text (you only win if you survive and X) ~~
     - press start when ready
-- ~~ first ready screen (rules recap)~~
+- ~~first ready screen (rules recap)~~
   - paragraph better
 - end game screen
   - final points + if win
@@ -52,19 +82,9 @@ ITP Spring 2019 -- Mimi Yin
   - ~~first name required~~
 
 
+# OLD STUFF
 
-
-## Premise
-
-In Trust Royale(working title), players compete for points while ensuring their survival in a dense battleground. Players can only succeed by pairing up with other players, though only one player will be crowned the victor. The game ends when either all but one player are dead or when the time runs out, at which point the player with the most points wins. In the case of a tie, the player with more health wins. If there is still a tie, you must face off one on one to the death (SUDDEN DEATH).
-
-## Set Up
-
-- Players can go to trust-royale.glitch.me and choose their color and name. Upon pressing the color select and name submit buttons, they will see a grey ready screen. Press start on that screen to be entered into the queue. 
-- Open trust-royale.glitch.me/screen for the shared screen which will display the score leaderboard and the whole map AND the start options. When all players have joined, press "Start Game" on the shared screen.
-- ~~When every player is ready and displaying on the leaderboard, the VIP player (indicated on the player screen and leaderboard) can press the "START" button to begin the game. (Should the VIP also be the one who has the settings page? or is that on the shared screen? or...)~~
-
-## How To Play
+## How To Play (NOT UPDATED
 - Your player avatar will be a square with the color you chose, with a black square in the center to represent your item. You start with no item.
 - The controls for movement are either WASD or the arrow keys. You must hold the keys down to move, it will not work very well if you try and press multiple times in the same direction.
 - Items (colored circles) will spawn randomly across the map, to pick them up, you simply run over that square with your avatar. The item square will change to match the color of the item you picked up.
@@ -78,8 +98,7 @@ In Trust Royale(working title), players compete for points while ensuring their 
 - You can see your current health and points in a display to the right of the map. Speed and Attack power, though displayed, are not used in this version.
 
 
-
-# TO DO -- Priority (by Apr 29)
+### TO DO -- Priority (by Apr 29)
 - ~~Finish File Template~~ (rn it's just copied from "The Mind" files)
 - Map
   - ~~starting map dimensions~~ (scalable)
@@ -142,7 +161,7 @@ In Trust Royale(working title), players compete for points while ensuring their 
 - ~~Ready Players on Set Up Screen~~
 
 
-# TO DO -- Secondary (by May 6 or TBD)
+### TO DO -- Secondary (by May 6 or TBD)
 - Map Effects
   - ratio to player count
   - not defined in 3 locations, only one
